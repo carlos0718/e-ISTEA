@@ -1,3 +1,6 @@
+import {aside} from "./aside.js";
+import {showMsg} from "./toast.js";
+
 export function createModal(product) {
 	let modal = `<div class="modal-dialog">
                 <div class="modal-content">
@@ -36,14 +39,23 @@ export function createModal(product) {
 	setTimeout(() => {
 		let btnAddToCart = document.querySelector(`#add-to-cart-${product.id}`);
 		btnAddToCart.onclick = () => {
-			product.quantity = 1;
-			/* guardar en localstorage. solo admite tipo string */
-			localStorage.setItem("productosCarrito", JSON.stringify(product));
-			/* leer de localstorage */
-			console.log(typeof localStorage.getItem("productosCarrito"));
 			let objlocalStorage = JSON.parse(localStorage.getItem("productosCarrito"));
-			console.log(objlocalStorage);
-			console.log(objlocalStorage.description);
+			let producExist = objlocalStorage.find((prod) => prod.id === product.id);
+			let index = objlocalStorage.findIndex((prod) => prod.id === product.id);
+
+			if (producExist) {
+				producExist.quantity = producExist.quantity + 1;
+				objlocalStorage[index] = producExist;
+			} else {
+				product.quantity = 1;
+				objlocalStorage.push(product);
+			}
+			/* leer de localstorage */
+			/* objlocalStorage.push(product); */
+			/* guardar en localstorage. solo admite tipo string */
+			localStorage.setItem("productosCarrito", JSON.stringify(objlocalStorage));
+			showMsg("Product added to cart", "info");
+			aside();
 		};
 	}, 0);
 
