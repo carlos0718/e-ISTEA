@@ -10,7 +10,7 @@
     <title>ISTEA</title>
 </head>
 
-<body>
+<body class="vh-100">
     <header class="bg-info px-5 py-3">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
@@ -45,6 +45,8 @@
 
     <main class="container mt-5">
         <section class="container">
+            <input type="text" name="buscador" id="buscador" class="m-3 border-1" />
+
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 g-md-2 g-lg-4" id="template-card">
 
             </div>
@@ -62,8 +64,17 @@
             </div>
             <div class="offcanvas-body">
             </div>
+            <div style="display: none;" id="btns-cart">
+                <div class="d-flex justify-content-center g-2">
+                    <button type="button" class="btn btn-primary" id="btn-finalizar">Finalizar compra</button>
+                    <button type="button" class="btn btn-danger" id="btn-eliminar">Eliminar productos</button>
+                </div>
+            </div>
         </aside>
     </main>
+    <footer class="bg-info px-5 py-3 mt-5 d-flex justify-content-center">
+        <h2>ISTEA 2024 - LAB. APP WEB CLIENTES</h2>
+    </footer>
 
     <!-- toast -->
     <div aria-live="polite" aria-atomic="true" class="position-relative">

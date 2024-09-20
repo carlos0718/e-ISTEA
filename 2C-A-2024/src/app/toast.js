@@ -1,4 +1,6 @@
 export function showMsg(msg, type) {
+	let toastContainer = document.querySelector(".toast-container");
+	toastContainer.innerHTML = "";
 	let toastHtml = `<div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive"
                      aria-atomic="true">
                     <div class="d-flex justify-content-center align-items-center">
@@ -10,7 +12,6 @@ export function showMsg(msg, type) {
                     </div>
                 </div>`;
 
-	let toastContainer = document.querySelector(".toast-container");
 	toastContainer.innerHTML += toastHtml;
 
 	let toast = document.querySelector(".toast");
