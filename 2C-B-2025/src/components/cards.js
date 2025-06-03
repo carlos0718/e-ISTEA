@@ -1,10 +1,12 @@
 import {getProducts} from './../api/api.js';
+import {createModal} from './modal.js';
 
 export function createCards() {
 	let containerCards = document.querySelector('#list-products');
 	getProducts().then((data) => {
 		window.mostrarDetalle = (prod) => {
 			console.log('Hola desde el evento>>', prod);
+			createModal(prod);
 		};
 
 		data.forEach((p) => {

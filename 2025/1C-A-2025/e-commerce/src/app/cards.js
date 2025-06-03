@@ -9,7 +9,6 @@ export function createCard() {
 			//let product = data.find((p) => p.id === id);
 			createModal(product);
 		};
-		console.log(data);
 		data.map((p) => {
 			let templateCard = `<div class="col">
                 <div class="card" style="height: 550px">
