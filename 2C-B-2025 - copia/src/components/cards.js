@@ -1,45 +1,48 @@
 import {animate} from 'https://cdn.jsdelivr.net/npm/motion@latest/+esm';
 
-import {getProducts} from './../api/api.js';
 import {createModal} from './modal.js';
 
 let isLoaded = false;
 
-export function createCards() {
+export function createCards(data) {
 	let containerCards = document.querySelector('#list-products');
+	if (!data) {
+		// Si no hay datos, mostrar loading
+		showloading(containerCards);
+		return;
+	}
 
-	showloading(containerCards);
+	// Configurar la función global para mostrar detalles
+	window.mostrarDetalle = (prod) => {
+		createModal(prod);
+	};
 
-	getProducts().then((data) => {
-		window.mostrarDetalle = (prod) => {
-			createModal(prod);
-		};
-		let template = '';
-		data.forEach((p) => {
-			let card = `<div class="col">
-                            <div class="card" style="height:450px">
-                                <img src="${p.image}" class="card-img-top img-fluid" alt="${p.title}" style="height: 350px; object-fit:scale-down;">
-                                <div class="card-body">
-                                    <h5 class="card-title text-truncate">${p.title}</h5>
-                                   <button type='button' class='btn btn-primary' onclick='mostrarDetalle(${JSON.stringify(p)})'> Más detalle</button>
-                                </div>
+	// Construir las cards
+	let template = '';
+	data.forEach((p) => {
+		let card = `<div class="col">
+                        <div class="card" style="height:450px">
+                            <img src="${p.image}" class="card-img-top img-fluid" alt="${p.title}" style="height: 350px; object-fit:scale-down;">
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">${p.title}</h5>
+                                <button type='button' class='btn btn-primary' onclick='mostrarDetalle(${JSON.stringify(p)})'> Más detalle</button>
                             </div>
-                        </div>`;
-			template += card;
-		});
-		containerCards.innerHTML = template;
-		isLoaded = true;
-		if (isLoaded) {
-			animateCards();
-		}
+                        </div>
+                    </div>`;
+		template += card;
 	});
+
+	// Actualizar el contenido y animar
+	containerCards.innerHTML = template;
+	isLoaded = true;
+	if (isLoaded) {
+		animateCards();
+	}
 }
 function animateCards() {
 	// Seleccionar todos los elementos de tarjeta para animar
 	let elements = document.querySelectorAll('.card');
 	if (elements.length > 0) {
-		console.log('Elementos encontrados para animar:', elements.length);
-
 		// Animar las tarjetas con efecto de entrada
 		elements.forEach((el, index) => {
 			// Stagger effect - cada tarjeta se anima con un pequeño retraso
@@ -72,6 +75,7 @@ function animateCards() {
 }
 
 function showloading(containerCards) {
+	console.log('Cargando productos...');
 	// Configurar el cuerpo del documento para ocupar al menos toda la altura de la ventana
 	document.body.style.minHeight = '100vh';
 	document.body.style.display = 'flex';

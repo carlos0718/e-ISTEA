@@ -1,8 +1,12 @@
+import {guardarProductoEnCarrito} from '../utils/cartStore.js';
+import {notifications} from './notificaciones.js';
+
 export function createModal(product) {
 	let containerModal = document.querySelector('#exampleModalFullscreen');
 
 	window.agregarACarrito = (item) => {
-		console.log('Producto agregado al carrito:', item);
+		guardarProductoEnCarrito(item);
+		notifications(item);
 	};
 
 	let template = ` <div class="modal-dialog modal-fullscreen">
@@ -39,9 +43,4 @@ export function createModal(product) {
 	// Initialize Bootstrap modal
 	const modal = new bootstrap.Modal(containerModal);
 	modal.show();
-
-	containerModal.addEventListener('hidden.bs.modal', () => {
-		let modalContent = containerModal.querySelector('.modal-dialog');
-		containerModal.removeChild(modalContent); // Remove the modal dialog
-	});
 }

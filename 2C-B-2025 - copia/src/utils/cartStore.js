@@ -1,4 +1,6 @@
-export function guardarProductoEnCarrito(producto = {id: 0, nombre: 'Tv', precio: 10}) {
+import {createCart} from '../components/carrito.js';
+
+export function guardarProductoEnCarrito(producto) {
 	// Obtener el carrito del localStorage
 	let carritoLs = obtenerCarrito();
 	// Verificar si el producto ya está en el carrito
@@ -8,6 +10,7 @@ export function guardarProductoEnCarrito(producto = {id: 0, nombre: 'Tv', precio
 	else inizializarProductoEnCarrito(carritoLs, producto);
 
 	actualizarCarrito(carritoLs);
+	createCart(carritoLs);
 }
 
 function obtenerCarrito() {
@@ -19,20 +22,20 @@ function obtenerCarrito() {
 	}
 }
 
-function validarProductoEnCarrito(carritoLs, producto) {
+export function validarProductoEnCarrito(carritoLs, producto) {
 	let existIdx = carritoLs.findIndex((c) => c.id === producto.id);
 	return existIdx;
 }
 
-function actualizarCarrito(carrito) {
+export function actualizarCarrito(carrito) {
 	localStorage.setItem('lista-carrito', JSON.stringify(carrito));
 }
 
-function sumarCantidadProductoEnCarrito(carritoLs, productIdx) {
+export function sumarCantidadProductoEnCarrito(carritoLs, productIdx) {
 	carritoLs[productIdx].cantidad += 1;
 }
 
-function restarCantidadProductoEnCarrito(carritoLs, productIdx) {
+export function restarCantidadProductoEnCarrito(carritoLs, productIdx) {
 	if (carritoLs[productIdx].cantidad > 1) carritoLs[productIdx].cantidad -= 1;
 }
 
