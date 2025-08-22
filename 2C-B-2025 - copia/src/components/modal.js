@@ -1,5 +1,5 @@
 import {guardarProductoEnCarrito} from '../utils/cartStore.js';
-import {notifications} from './notificaciones.js';
+import {notifications, notificationsConId, notificationsInsegura} from './notificaciones.js';
 
 export function createModal(product) {
 	let containerModal = document.querySelector('#exampleModalFullscreen');
@@ -7,6 +7,8 @@ export function createModal(product) {
 	window.agregarACarrito = (item) => {
 		guardarProductoEnCarrito(item);
 		notifications(item);
+		//notificationsInsegura(item);
+		//notificationsConId(item);
 	};
 
 	let template = ` <div class="modal-dialog modal-fullscreen">

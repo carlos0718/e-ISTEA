@@ -28,3 +28,8 @@ export function sumarCantidadProducto(carrito, idx) {
 export function restarCantidadProducto(carrito, idx) {
 	if (carrito[idx].cantidad > 1) carrito[idx].cantidad -= 1;
 }
+
+export function eliminarProductoDelCarrito(carrito, idx) {
+	carrito.splice(idx, 1);
+	guardarEnLocalStorage(carrito);
+}

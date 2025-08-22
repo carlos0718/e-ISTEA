@@ -1,10 +1,10 @@
-import {guardarEnLocalStorage, restarCantidadProducto, sumarCantidadProducto} from '../utils/carritoStorage.js';
+import {eliminarProductoDelCarrito, guardarEnLocalStorage, restarCantidadProducto, sumarCantidadProducto} from '../utils/carritoStorage.js';
 
 export function crearSeccionCarrito(carrito) {
 	let containerCarrito = document.querySelector('.offcanvas-body');
-
+	containerCarrito.innerHTML = '';
 	carrito.forEach((c) => {
-		let template = `<div class="card mb-3" style="max-width: 540px;">
+		let template = `<div class="card mb-3" style="max-width: 540px;" id="card-${c.id}">
                             <div class="row g-0">
                                 <div class="col-md-4">
                                 <img src="${c.image}" class="img-fluid rounded-start" alt="${c.title}">
@@ -19,10 +19,10 @@ export function crearSeccionCarrito(carrito) {
                                             <button class="btn btn-outline-primary" onclick='sumarCantidad(${c.id})'>+</button>
                                         </div>
                                         <div>
-                                            <span class="fw-bolder">Precio: $${c.price}</span>
+                                            <span class="fw-bolder">Precio: $${(c.price * c.cantidad).toFixed(2)}</span>
                                         </div>
                                         <div>
-                                            <button class="btn btn-outline-danger">
+                                            <button class="btn btn-outline-danger" onclick='eliminarProdcuto(${c.id})'>
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -35,7 +35,6 @@ export function crearSeccionCarrito(carrito) {
 	});
 
 	window.sumarCantidad = (id) => {
-		console.log(`Sumar cantidad del producto con ID: ${id}`);
 		let idx = carrito.findIndex((item) => item.id === id);
 		sumarCantidadProducto(carrito, idx);
 		guardarEnLocalStorage(carrito);
@@ -43,11 +42,16 @@ export function crearSeccionCarrito(carrito) {
 	};
 
 	window.restarCantidad = (id) => {
-		console.log(`Sumar cantidad del producto con ID: ${id}`);
 		let idx = carrito.findIndex((item) => item.id === id);
 		restarCantidadProducto(carrito, idx);
 		guardarEnLocalStorage(carrito);
 		actualizarSpanCantidad(id, carrito[idx].cantidad);
+	};
+	window.eliminarProdcuto = (id) => {
+		let idx = carrito.findIndex((item) => item.id === id);
+		eliminarProductoDelCarrito(carrito, idx);
+		let card = document.querySelector(`#card-${id}`);
+		containerCarrito.removeChild(card);
 	};
 }
 
